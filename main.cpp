@@ -31,6 +31,21 @@ int main() {
             break;
         }
 
+        // 处理cd命令
+        if(input.substr(0, 2) == "cd")
+        {
+            std::string path = input.substr(3); // 获取 cd 后面的路径参数
+            int ret = chdir(path.c_str()); // 调用系统的 chdir 函数
+
+            if (ret == 0) {
+                std::cout << "Changed directory to " << path << std::endl;
+            } else {
+                std::cerr << "Failed to change directory to " << path << std::endl;
+            }
+
+            continue;
+        }
+
         // 解析命令和参数
         std::vector<std::string> commands;
         std::vector<std::vector<std::string>> args_list;
