@@ -15,6 +15,10 @@ cmake .. && make
 4.运行项目
 ./cppshell
 
+## 运行简单的shell脚本
+sh test.sh
+
+
 ## 完成功能
 1. shell 程序能够提供命令的输入，执行并显示执行结果的功能。
 2. shell 程序能够提供可 shell 编程的功能，能够执行简单的 shell 脚本。
