@@ -8,6 +8,8 @@
 #include <fcntl.h>
 #include <cstring>
 #include <cstdlib>
+#include <sys/stat.h>
+#include <sys/types.h>
 
 // 分割字符串函数
 std::vector<std::string> split(const std::string &s, char delimiter) {
@@ -44,6 +46,20 @@ int main() {
             }
 
             continue;
+        }
+
+        // 处理mkdir命令
+        if (input.substr(0, 5) == "mkdir") {
+            std::string dir_name = input.substr(6); // 获取 mkdir 后面的目录名参数
+            int ret = mkdir(dir_name.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH); // 创建目录
+            
+            if (ret == 0) {
+                std::cout << "Created directory: " << dir_name << std::endl;
+            } else {
+                std::cerr << "Failed to create directory: " << dir_name << std::endl;
+            }
+            
+            continue; // 继续下一次循环
         }
 
         // 解析命令和参数
