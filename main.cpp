@@ -62,6 +62,41 @@ int main() {
             continue; // 继续下一次循环
         }
 
+        // 处理chmod命令
+        if (input.substr(0, 5) == "chmod") {
+            std::string args = input.substr(6); // 获取 chmod 后面的参数部分
+            
+            // 使用 stringstream 分割参数
+            std::stringstream ss(args);
+            std::string item;
+            std::vector<std::string> tokens;
+            
+            while (getline(ss, item, ' ')) {
+                tokens.push_back(item);
+            }
+            
+            if (tokens.size() != 3) {
+                std::cerr << "Invalid chmod syntax. Usage: chmod <mode> <file>" << std::endl;
+                continue;
+            }
+            
+            std::string mode_str = tokens[0]; // 权限模式字符串，如 "755"
+            std::string file_name = tokens[2]; // 文件名或路径
+            
+            int mode;
+            std::stringstream(mode_str) >> std::oct >> mode; // 将权限模式字符串转换为整数
+            
+            int ret = chmod(file_name.c_str(), mode); // 调用系统的 chmod 函数
+            
+            if (ret == 0) {
+                std::cout << "Changed permissions of " << file_name << " to " << mode_str << std::endl;
+            } else {
+                std::cerr << "Failed to change permissions of " << file_name << std::endl;
+            }
+            
+            continue; // 继续下一次循环
+        }
+
         // 解析命令和参数
         std::vector<std::string> commands;
         std::vector<std::vector<std::string>> args_list;
